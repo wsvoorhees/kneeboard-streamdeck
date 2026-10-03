@@ -8,6 +8,9 @@ import {
   nudgeVrView,
   recenterVr,
   setTabByName,
+  setViewOpacity,
+  setViewOpacityAbsolute,
+  toggleViewVisibility,
 } from "../src/protocol.ts";
 
 test("a manual profile selection always sends, while automatic assertions deduplicate", () => {
@@ -78,4 +81,28 @@ test("the nudge message name matches upstream OpenKneeboard", () => {
   // If upstream renames this during review the packet becomes silently inert — a write that
   // succeeds and moves nothing, which is exactly the failure this repo keeps shipping.
   assert.equal(nudgeVrView({ X: 1 }).split("!")[1], "NudgeVRView");
+});
+
+const valueOf = (packet: string): unknown => JSON.parse(packet.split("!")[3]!);
+const nameOf = (packet: string): string => packet.split("!")[1]!;
+
+test("a view toggle is its own message, naming the view", () => {
+  const packet = toggleViewVisibility(2);
+  assert.equal(nameOf(packet), "ToggleViewVisibility");
+  assert.deepEqual(valueOf(packet), { Kneeboard: 2 });
+});
+
+test("an opacity step adds to both opacities, sending every field", () => {
+  const packet = setViewOpacity(1, -0.1);
+  assert.equal(nameOf(packet), "SetViewOpacity");
+  assert.deepEqual(valueOf(packet), { Kneeboard: 1, Action: "Add", Target: "Both", Value: -0.1 });
+});
+
+test("an opacity preset sets both opacities, clamped before it reaches the wire", () => {
+  assert.deepEqual(valueOf(setViewOpacityAbsolute(2, 1.5)), {
+    Kneeboard: 2,
+    Action: "Set",
+    Target: "Both",
+    Value: 1,
+  });
 });

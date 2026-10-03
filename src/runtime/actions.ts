@@ -14,7 +14,7 @@ import { DEFAULT_VIEW_SIZE, OPACITY_STEP, resetDelta, resize, rotate, setTarget,
 import { recenterVr } from "../protocol.ts";
 import {
   getPlacement,
-  showView,
+  toggleView,
   showTabOnView,
   send,
   sendNudge,
@@ -54,7 +54,7 @@ export class OverlayControl extends SingletonAction<OverlayControlSettings> {
     // Assign the wheel tab before showing the separate panel. Visibility is toggled by
     // OpenKneeboard, whose state the one-way channel cannot read back.
     if (settings.wheelTab) showTabOnView(settings.wheelTab, settings.wheelView ?? 2);
-    showView(settings.wheelView ?? 2);
+    toggleView(settings.wheelView ?? 2);
   }
 
   /**
@@ -234,7 +234,7 @@ export class ViewVisibility extends SingletonAction<ViewKeySettings> {
   }
   #toggle(settings: ViewKeySettings): void {
     const view = settings.view ?? 1;
-    showView(view);
+    toggleView(view);
     streamDeck.logger.info(`toggled visibility of view ${view}`);
   }
   override onKeyDown(ev: KeyDownEvent<ViewKeySettings>): void {

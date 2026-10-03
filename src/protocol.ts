@@ -26,11 +26,14 @@ export const EVT = {
    */
   nudgeVrView: "NudgeVRView",
   /**
-   * Proposed upstream in PR #939. Release 1.12.10 can only
+   * Proposed upstream in PR #939, alongside `ShowView` and `HideView`. Release 1.12.10 can only
    * hide every view at once (`HIDE` sets one bool on the renderer), which makes a second panel
    * useless: it would be permanently in your vision or not there at all.
+   *
+   * An earlier draft of #939 called this `SetViewVisibility`; builds of that draft ignore this
+   * name, and builds with this name ignore the old one.
    */
-  setViewVisibility: "SetViewVisibility",
+  toggleViewVisibility: "ToggleViewVisibility",
   /**
    * Proposed upstream in PR #940: per-view opacity already
    * reached the renderer (`VRKneeboard::GetRenderParameters` multiplies it into the tint) and was
@@ -186,19 +189,25 @@ export function setTabByNameOnView(name: string, kneeboard: number, page = 0): s
  * cannot read the current value and work out an absolute one. OpenKneeboard clamps to 0..1, so a
  * key can be leaned on at either end without the value running away.
  *
- * A view has two opacities — looking at it and not — and the message moves BOTH together, because
- * "how transparent is that panel" is one number to the person pressing the key. Set them apart in
- * OpenKneeboard's settings if you want the gaze effect; a shared delta preserves the gap.
+ * A view has two opacities — looking at it and not — and this moves BOTH together (`Target:
+ * "Both"`), because "how transparent is that panel" is one number to the person pressing the key.
+ * Set them apart in OpenKneeboard's settings if you want the gaze effect; a shared step preserves
+ * the gap.
+ *
+ * Every field is sent: the reviewed message has no optional fields.
  */
 export function setViewOpacity(kneeboard: number, delta: number): string {
-  return encodePacket(EVT.setViewOpacity, JSON.stringify({ Kneeboard: kneeboard, Delta: delta }));
+  return encodePacket(
+    EVT.setViewOpacity,
+    JSON.stringify({ Kneeboard: kneeboard, Action: "Add", Target: "Both", Value: delta }),
+  );
 }
 
 /** An absolute opacity, for a preset rather than a nudge. */
 export function setViewOpacityAbsolute(kneeboard: number, opacity: number): string {
   return encodePacket(
     EVT.setViewOpacity,
-    JSON.stringify({ Kneeboard: kneeboard, Opacity: clampOpacity(opacity) }),
+    JSON.stringify({ Kneeboard: kneeboard, Action: "Set", Target: "Both", Value: clampOpacity(opacity) }),
   );
 }
 
@@ -206,14 +215,14 @@ export function setViewOpacityAbsolute(kneeboard: number, opacity: number): stri
 export const clampOpacity = (value: number): number => Math.min(1, Math.max(0, value));
 
 /**
- * Show, hide or toggle ONE view.
+ * Toggle ONE view in VR.
  *
- * `visible` omitted means toggle, and that is the case a deck key actually needs: the mailslot is
- * one-way, so the plugin cannot read back whether a panel is currently up and cannot decide between
- * showing and hiding for itself.
+ * Toggle is the case a deck key actually needs: the mailslot is one-way, so the plugin cannot read
+ * back whether a panel is currently up and cannot decide between showing and hiding for itself.
+ *
+ * `kneeboard` must be 1 or more: OpenKneeboard ignores a toggle of 0 ("the active view"), because
+ * the active view is always visible. If every view is hidden, a toggle shows all of them.
  */
-export function setViewVisibility(kneeboard: number, visible?: boolean): string {
-  const payload: Record<string, unknown> = { Kneeboard: kneeboard };
-  if (visible !== undefined) payload.Visible = visible;
-  return encodePacket(EVT.setViewVisibility, JSON.stringify(payload));
+export function toggleViewVisibility(kneeboard: number): string {
+  return encodePacket(EVT.toggleViewVisibility, JSON.stringify({ Kneeboard: kneeboard }));
 }
