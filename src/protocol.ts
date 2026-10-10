@@ -26,21 +26,23 @@ export const EVT = {
    */
   nudgeVrView: "NudgeVRView",
   /**
-   * Proposed upstream in PR #939, alongside `ShowView` and `HideView`. Release 1.12.10 can only
+   * Proposed upstream in PR #939, alongside `ShowVRView` and `HideVRView`. Release 1.12.10 can only
    * hide every view at once (`HIDE` sets one bool on the renderer), which makes a second panel
    * useless: it would be permanently in your vision or not there at all.
    *
-   * An earlier draft of #939 called this `SetViewVisibility`; builds of that draft ignore this
-   * name, and builds with this name ignore the old one.
+   * Earlier versions of #939 called this `ToggleViewVisibility`, and before that
+   * `SetViewVisibility`; builds of either ignore this name, and builds with this name ignore both.
    */
-  toggleViewVisibility: "ToggleViewVisibility",
+  toggleViewVisibility: "ToggleVRViewVisibility",
   /**
    * Proposed upstream in PR #940: per-view opacity already
    * reached the renderer (`VRKneeboard::GetRenderParameters` multiplies it into the tint) and was
    * only reachable from the settings GUI. `SetBrightness` is NOT this — it drives the global UI
    * tint, which is RGB rather than alpha and applies to every view at once.
+   *
+   * Earlier versions of #940 called this `SetViewOpacity`; builds of those ignore this name.
    */
-  setViewOpacity: "SetViewOpacity",
+  setViewOpacity: "SetVRViewOpacity",
 } as const;
 
 export type EventName = (typeof EVT)[keyof typeof EVT];

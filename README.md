@@ -16,8 +16,8 @@ The package also includes 14 images verified against the installed profiles in `
 | --- | --- |
 | Tab switching, profile switching, recenter VR | 1.12.10 or newer |
 | VR placement and size adjustment | A build containing merged [PR #937](https://github.com/OpenKneeboard/OpenKneeboard/pull/937). Release 1.12.10 predates it. |
-| Toggle one view | A build containing [PR #939](https://github.com/OpenKneeboard/OpenKneeboard/pull/939) as reworked after review (`ToggleViewVisibility`); builds of the earlier `SetViewVisibility` draft ignore it. Include [PR #942](https://github.com/OpenKneeboard/OpenKneeboard/pull/942) too: without it, hiding the last visible view with SteamVR running can crash OpenKneeboard. |
-| Fade one view | A build containing [PR #940](https://github.com/OpenKneeboard/OpenKneeboard/pull/940) as reworked after review (`Action`/`Target`/`Value`); builds of the earlier `Delta` draft ignore it. |
+| Toggle one view | A build containing [PR #939](https://github.com/OpenKneeboard/OpenKneeboard/pull/939) as reworked after review (`ToggleVRViewVisibility`); builds of earlier versions, which used `ToggleViewVisibility` or `SetViewVisibility`, ignore it. Include [PR #942](https://github.com/OpenKneeboard/OpenKneeboard/pull/942) too: without it, hiding the last visible view with SteamVR running can crash OpenKneeboard. |
+| Fade one view | A build containing [PR #940](https://github.com/OpenKneeboard/OpenKneeboard/pull/940) as reworked after review (`SetVRViewOpacity`); builds of earlier versions, which used `SetViewOpacity`, ignore it. |
 
 The API uses a one-way Windows mailslot. A successful write confirms delivery to OpenKneeboard, not that the requested change was applied. Unsupported messages are ignored by older builds.
 

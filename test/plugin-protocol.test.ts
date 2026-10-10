@@ -88,13 +88,13 @@ const nameOf = (packet: string): string => packet.split("!")[1]!;
 
 test("a view toggle is its own message, naming the view", () => {
   const packet = toggleViewVisibility(2);
-  assert.equal(nameOf(packet), "ToggleViewVisibility");
+  assert.equal(nameOf(packet), "ToggleVRViewVisibility");
   assert.deepEqual(valueOf(packet), { Kneeboard: 2 });
 });
 
 test("an opacity step adds to both opacities, sending every field", () => {
   const packet = setViewOpacity(1, -0.1);
-  assert.equal(nameOf(packet), "SetViewOpacity");
+  assert.equal(nameOf(packet), "SetVRViewOpacity");
   assert.deepEqual(valueOf(packet), { Kneeboard: 1, Action: "Add", Target: "Both", Value: -0.1 });
 });
 
