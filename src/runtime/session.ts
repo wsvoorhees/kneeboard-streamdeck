@@ -74,9 +74,15 @@ const pages = createPageCoordinator({
     // One line per page change: the only record of what the plugin decided, since the channel to
     // OpenKneeboard is one-way and cannot be read back.
     streamDeck.logger.info(
-      `page on ${device}: ${effects.enteredPlacement ? "placement" : "deck"} → view 1 "${effects.tab}"` +
+      `page on ${device}: ${effects.enteredPlacement ? "placement" : "deck"} → view 1 ${effects.tab ? `"${effects.tab}"` : "unchanged"}` +
       (effects.profile ? `, profile "${effects.profile}"` : ""),
     );
+    if (effects.disagreement) {
+      // Loud, not silent: the keys show the alert triangle, and the log says which setting to fix.
+      streamDeck.logger.warn(`page on ${device}: Show View keys disagree on ${effects.disagreement.fields.join(" and ")}; ` +
+        "set them the same on every Show View key in this profile. Not switching until they agree.");
+      for (const id of effects.disagreement.sources) void streamDeck.actions.getActionById(id)?.showAlert();
+    }
     if (effects.profile) showProfile(effects.profile);
     if (effects.enteredPlacement) resetPlacementState();
     if (effects.tab) showTabOnView(effects.tab, 1);

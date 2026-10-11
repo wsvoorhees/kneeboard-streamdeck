@@ -1,6 +1,6 @@
 {
   "Name": "OpenKneeboard Configurator",
-  "Version": "0.3.0.0",
+  "Version": "0.4.0.0",
   "Author": "Will Voorhees",
   "Description": "Control OpenKneeboard tabs, profiles, VR placement, visibility, and opacity from Stream Deck.",
   "Category": "OpenKneeboard Configurator",
@@ -24,28 +24,6 @@
     }
   ],
   "Actions": [
-    {
-      "Name": "Overlay Control",
-      "UUID": "com.willvoorhees.openkneeboard-configurator.overlay-control",
-      "Icon": "imgs/actions/overlay-control/icon",
-      "Tooltip": "Toggle the wheel reference.",
-      "Controllers": [
-        "Keypad",
-        "Encoder"
-      ],
-      "States": [
-        {
-          "Image": "imgs/actions/overlay-control/key",
-          "TitleAlignment": "middle"
-        }
-      ],
-      "Encoder": {
-        "layout": "$X1",
-        "TriggerDescription": {
-          "Push": "Toggle reference"
-        }
-      }
-    },
     {
       "Name": "Switch Profile",
       "UUID": "com.willvoorhees.openkneeboard-configurator.profile-select",
@@ -179,10 +157,10 @@
       }
     },
     {
-      "Name": "Toggle View",
+      "Name": "Show View",
       "UUID": "com.willvoorhees.openkneeboard-configurator.view-visibility",
       "Icon": "imgs/actions/view-visibility/icon",
-      "Tooltip": "Show or hide this view.",
+      "Tooltip": "Show or hide a view, putting its tab on it first.",
       "Controllers": [
         "Keypad",
         "Encoder"
@@ -196,7 +174,7 @@
       "Encoder": {
         "layout": "$X1",
         "TriggerDescription": {
-          "Push": "Toggle view"
+          "Push": "Show or hide view"
         }
       }
     },

@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
+import { PLUGIN_NAME, PLUGIN_UUID, PLUGIN_VERSION } from '../src/identity.ts';
 
 const bundle = path.resolve('com.willvoorhees.openkneeboard-configurator.sdPlugin');
 const manifest = JSON.parse(fs.readFileSync(path.join(bundle, 'manifest.json'), 'utf8'));
@@ -47,9 +48,17 @@ test('every action has the bundled offline settings UI', () => {
   assert.doesNotMatch(html, /https?:\/\//);
 });
 
+test('the plugin identity matches the manifest and package version', () => {
+  assert.equal(manifest.UUID, PLUGIN_UUID);
+  assert.equal(manifest.Name, PLUGIN_NAME);
+  assert.equal(manifest.Version, PLUGIN_VERSION);
+  const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+  assert.equal(`${pkg.version}.0`, PLUGIN_VERSION);
+});
+
 test('every control is available on keys and dials', () => {
   const expected = [
-    'overlay-control', 'profile-select', 'tab-select', 'placement-dial',
+    'profile-select', 'tab-select', 'placement-dial',
     'placement-reset', 'recentre', 'view-select', 'view-visibility', 'view-opacity',
   ];
   const ids = manifest.Actions.map((action: { UUID: string }) => action.UUID.slice(manifest.UUID.length + 1));

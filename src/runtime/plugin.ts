@@ -1,7 +1,6 @@
 import streamDeck from "@elgato/streamdeck";
 
 import {
-  OverlayControl,
   ProfileSelect,
   TabSelect,
   PlacementDial,
@@ -9,7 +8,7 @@ import {
   Recentre,
   ViewSelect,
   ViewOpacity,
-  ViewVisibility,
+  ShowView,
 } from "./actions.ts";
 import { closeSession } from "./session.ts";
 
@@ -18,14 +17,13 @@ streamDeck.logger.info(
   `openkneeboard-configurator starting: node ${process.version}, pid ${process.pid}`,
 );
 
-streamDeck.actions.registerAction(new OverlayControl());
 streamDeck.actions.registerAction(new ProfileSelect());
 streamDeck.actions.registerAction(new TabSelect());
 streamDeck.actions.registerAction(new PlacementDial());
 streamDeck.actions.registerAction(new PlacementReset());
 streamDeck.actions.registerAction(new Recentre());
 streamDeck.actions.registerAction(new ViewSelect());
-streamDeck.actions.registerAction(new ViewVisibility());
+streamDeck.actions.registerAction(new ShowView());
 streamDeck.actions.registerAction(new ViewOpacity());
 
 // The handle is the only OS resource the plugin holds; release it rather than relying on process

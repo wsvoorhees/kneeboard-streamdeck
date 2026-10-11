@@ -29,17 +29,26 @@ Add an action from the **OpenKneeboard Configurator** category in Stream Deck, s
 | --- | --- | --- |
 | **Switch Profile** | Switch to the configured OpenKneeboard profile | Press to switch |
 | **Show Tab** | Show the configured tab on the active or selected view | Press to show |
-| **Overlay Control** | Show or hide the reference panel; optionally select a profile first | Press for the same command |
 | **Adjust Placement** | Nudge one axis or resize by signed key press ticks; use separate keys for increase and decrease | Turn to adjust using the configured dial ticks per detent |
 | **Select View** | Point placement controls at a view | Press to select |
-| **Toggle View** | Show or hide one view | Press to toggle |
+| **Show View** | Optionally select a profile and put a tab on the view, then show or hide it | Press for the same command |
 | **Fade View** | Change opacity by a configured signed step | Turn to fade; press for the configured step |
 | **Reset Position** | Undo this session's placement changes for the selected view | Press to reset |
 | **Recentre VR** | Recenter the VR overlay | Press to recenter |
 
-For **Switch Profile**, enter one exact profile name per action. This is a manual command; **Overlay Control** can also select its configured profile automatically when a Stream Deck page appears. A later page change can therefore replace a manual selection if that page has **Overlay Control** configured. For **Adjust Placement**, choose Left/Right, Up/Down, Near/Far, Pitch, Yaw, Roll, or Size from the Axis menu. Size scales both physical dimensions proportionally. Device default follows the dial column, or Left/Right on a key. On a key, `Key press ticks` defaults to `1`; use `10` for coarse translation/rotation or `5` for coarse size, with a negative sign to decrease. Set `Dial ticks per detent` to the same positive count on dials. Existing actions with an axis index or Size setting appear with the matching menu choice and keep working.
+For **Switch Profile**, enter one exact profile name per action. This is a manual command; a page's **Show View** keys can also select their configured profile automatically when a Stream Deck page appears (see *Page settings* below), so a later page change can replace a manual selection. For **Adjust Placement**, choose Left/Right, Up/Down, Near/Far, Pitch, Yaw, Roll, or Size from the Axis menu. Size scales both physical dimensions proportionally. Device default follows the dial column, or Left/Right on a key. On a key, `Key press ticks` defaults to `1`; use `10` for coarse translation/rotation or `5` for coarse size, with a negative sign to decrease. Set `Dial ticks per detent` to the same positive count on dials. Existing actions with an axis index or Size setting appear with the matching menu choice and keep working.
 
-Place coarse and fine controls on separate Stream Deck pages with a native Go to Page key between them. Set each action’s `Placement reference tab` to the matching OpenKneeboard tab (`Placement` or `Placement Fine`). The displayed Stream Deck page and its configured ticks determine the step size; there is no plugin mode to track. The plugin does not create tabs or Stream Deck profiles.
+Place coarse and fine controls on separate Stream Deck pages with a native Go to Page key between them. On each page, set the placement controls' **View 1 tab** (under *This page*) to the matching OpenKneeboard tab (`Placement` or `Placement Fine`). The displayed Stream Deck page and its configured ticks determine the step size; there is no plugin mode to track. The plugin does not create tabs or Stream Deck profiles.
+
+### Page settings
+
+Two settings describe a Stream Deck **page** rather than a single key: the tab view 1 should show on that page, and the OpenKneeboard profile that belongs with it. The settings panel groups them under **This page**. Stream Deck has no per-page storage for a plugin, so every **Show View** key holds a copy of both, and the placement controls hold a copy of the View 1 tab. When a page appears, the plugin collects what its keys report and applies the page's View 1 tab and profile once.
+
+Saving a change to one key's copy writes it to the other keys on screen that hold it, so the copies stay one value. Only a setting the save changed is copied, so saving a key's own view or tab never overwrites the page's settings. If a page's keys disagree, those keys show an alert and the disagreeing setting is not applied, rather than whichever key appeared first winning. Keys written by a profile generator carry a `generatedBy` setting naming it; the settings panel then warns that the generator's next run replaces manual edits.
+
+### Upgrading from 0.3
+
+Version 0.4 removes **Overlay Control**: a **Show View** key with a tab and a profile does the same job, and any key on a page can carry the page's profile. Replace any Overlay Control keys with Show View keys after upgrading. **Toggle View** is the same action under its new name, **Show View**, and existing keys keep working.
 
 ## Build and install
 
