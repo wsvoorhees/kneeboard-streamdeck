@@ -8,9 +8,9 @@ import {
   nudgeVrView,
   recenterVr,
   setTabByName,
-  setViewOpacity,
-  setViewOpacityAbsolute,
-  toggleViewVisibility,
+  setVrViewOpacity,
+  setVrViewOpacityAbsolute,
+  toggleVrViewVisibility,
 } from "../src/protocol.ts";
 
 test("a manual profile selection always sends, while automatic assertions deduplicate", () => {
@@ -87,19 +87,19 @@ const valueOf = (packet: string): unknown => JSON.parse(packet.split("!")[3]!);
 const nameOf = (packet: string): string => packet.split("!")[1]!;
 
 test("a view toggle is its own message, naming the view", () => {
-  const packet = toggleViewVisibility(2);
+  const packet = toggleVrViewVisibility(2);
   assert.equal(nameOf(packet), "ToggleVRViewVisibility");
   assert.deepEqual(valueOf(packet), { Kneeboard: 2 });
 });
 
 test("an opacity step adds to both opacities, sending every field", () => {
-  const packet = setViewOpacity(1, -0.1);
+  const packet = setVrViewOpacity(1, -0.1);
   assert.equal(nameOf(packet), "SetVRViewOpacity");
   assert.deepEqual(valueOf(packet), { Kneeboard: 1, Action: "Add", Target: "Both", Value: -0.1 });
 });
 
 test("an opacity preset sets both opacities, clamped before it reaches the wire", () => {
-  assert.deepEqual(valueOf(setViewOpacityAbsolute(2, 1.5)), {
+  assert.deepEqual(valueOf(setVrViewOpacityAbsolute(2, 1.5)), {
     Kneeboard: 2,
     Action: "Set",
     Target: "Both",

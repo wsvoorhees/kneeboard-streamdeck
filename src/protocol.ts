@@ -33,7 +33,7 @@ export const EVT = {
    * Earlier versions of #939 called this `ToggleViewVisibility`, and before that
    * `SetViewVisibility`; builds of either ignore this name, and builds with this name ignore both.
    */
-  toggleViewVisibility: "ToggleVRViewVisibility",
+  toggleVrViewVisibility: "ToggleVRViewVisibility",
   /**
    * Proposed upstream in PR #940: per-view opacity already
    * reached the renderer (`VRKneeboard::GetRenderParameters` multiplies it into the tint) and was
@@ -42,7 +42,7 @@ export const EVT = {
    *
    * Earlier versions of #940 called this `SetViewOpacity`; builds of those ignore this name.
    */
-  setViewOpacity: "SetVRViewOpacity",
+  setVrViewOpacity: "SetVRViewOpacity",
 } as const;
 
 export type EventName = (typeof EVT)[keyof typeof EVT];
@@ -198,17 +198,17 @@ export function setTabByNameOnView(name: string, kneeboard: number, page = 0): s
  *
  * Every field is sent: the reviewed message has no optional fields.
  */
-export function setViewOpacity(kneeboard: number, delta: number): string {
+export function setVrViewOpacity(kneeboard: number, delta: number): string {
   return encodePacket(
-    EVT.setViewOpacity,
+    EVT.setVrViewOpacity,
     JSON.stringify({ Kneeboard: kneeboard, Action: "Add", Target: "Both", Value: delta }),
   );
 }
 
 /** An absolute opacity, for a preset rather than a nudge. */
-export function setViewOpacityAbsolute(kneeboard: number, opacity: number): string {
+export function setVrViewOpacityAbsolute(kneeboard: number, opacity: number): string {
   return encodePacket(
-    EVT.setViewOpacity,
+    EVT.setVrViewOpacity,
     JSON.stringify({ Kneeboard: kneeboard, Action: "Set", Target: "Both", Value: clampOpacity(opacity) }),
   );
 }
@@ -225,6 +225,6 @@ export const clampOpacity = (value: number): number => Math.min(1, Math.max(0, v
  * `kneeboard` must be 1 or more: OpenKneeboard ignores a toggle of 0 ("the active view"), because
  * the active view is always visible. If every view is hidden, a toggle shows all of them.
  */
-export function toggleViewVisibility(kneeboard: number): string {
-  return encodePacket(EVT.toggleViewVisibility, JSON.stringify({ Kneeboard: kneeboard }));
+export function toggleVrViewVisibility(kneeboard: number): string {
+  return encodePacket(EVT.toggleVrViewVisibility, JSON.stringify({ Kneeboard: kneeboard }));
 }

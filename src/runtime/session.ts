@@ -12,8 +12,8 @@ import {
   nudgeVrView,
   setTabByName,
   setTabByNameOnView,
-  setViewOpacity,
-  toggleViewVisibility,
+  setVrViewOpacity,
+  toggleVrViewVisibility,
   type Nudge,
 } from "../protocol.ts";
 import { createPlacement, type PlacementState } from "../placement.ts";
@@ -33,11 +33,11 @@ export function sendNudge(delta: Nudge, kneeboard = 0): boolean {
 }
 
 /** Toggle one view in VR. */
-export const toggleView = (kneeboard: number): boolean => send(toggleViewVisibility(kneeboard));
+export const toggleView = (kneeboard: number): boolean => send(toggleVrViewVisibility(kneeboard));
 
 /** Fade one view up or down by a relative step. OpenKneeboard does the clamping. */
 export const fadeView = (kneeboard: number, delta: number): boolean =>
-  send(setViewOpacity(kneeboard, delta));
+  send(setVrViewOpacity(kneeboard, delta));
 
 /** Point one view at a tab, leaving the others alone. */
 export const showTabOnView = (title: string, kneeboard: number): boolean =>
