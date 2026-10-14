@@ -3,9 +3,9 @@
 // (every action it emits names the plugin version) and the doctor's installed-version check.
 // Dependency-free on purpose: the generator and the doctor import it from outside the plugin.
 
-export const PLUGIN_UUID = "com.willvoorhees.openkneeboard-configurator";
-export const PLUGIN_NAME = "OpenKneeboard Configurator";
-export const PLUGIN_VERSION = "0.4.0.0";
+export const PLUGIN_UUID = "com.willvoorhees.kneeboard-streamdeck";
+export const PLUGIN_NAME = "Kneeboard-Streamdeck";
+export const PLUGIN_VERSION = "0.5.0.0";
 /** The three together, as the profile generator and the installer use them. */
 export const PLUGIN_IDENTITY = { name: PLUGIN_NAME, uuid: PLUGIN_UUID, version: PLUGIN_VERSION } as const;
 

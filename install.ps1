@@ -1,13 +1,15 @@
 <#
-Build and install OpenKneeboard Configurator for Stream Deck on Windows.
+Build and install Kneeboard-Streamdeck for Stream Deck on Windows.
 Use -StageOnly to build while Stream Deck is running, then quit it and use
 -UseStagedBuild to install without rebuilding.
 Refuses to install over a newer installed version; -AllowDowngrade goes back on purpose.
+Moves aside the plugin's pre-0.5 install (com.willvoorhees.openkneeboard-configurator), so
+Stream Deck does not load both.
 #>
 [CmdletBinding()]
 param(
   [string] $SourceDir = $PSScriptRoot,
-  [string] $BuildDir = "$env:LOCALAPPDATA\OpenKneeboardConfigurator\build",
+  [string] $BuildDir = "$env:LOCALAPPDATA\KneeboardStreamdeck\build",
   [switch] $Copy,
   [switch] $StageOnly,
   [switch] $UseStagedBuild,
@@ -15,8 +17,10 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-$PluginId = 'com.willvoorhees.openkneeboard-configurator'
+$PluginId = 'com.willvoorhees.kneeboard-streamdeck'
 $PluginDir = "$PluginId.sdPlugin"
+# The ID before 0.5.0, when the plugin was called OpenKneeboard Configurator.
+$LegacyPluginDir = 'com.willvoorhees.openkneeboard-configurator.sdPlugin'
 $Plugins = Join-Path $env:APPDATA 'Elgato\StreamDeck\Plugins'
 
 if (-not $IsWindows -and $PSVersionTable.PSEdition -eq 'Core') {
@@ -68,6 +72,15 @@ if (-not (Test-Path $built) -or -not (Test-Path $native)) { throw 'Staged build 
 if ($StageOnly) { Write-Host "Staged plugin at $BuildDir"; return }
 if (Get-Process -Name 'StreamDeck' -ErrorAction SilentlyContinue) {
   throw 'Quit Stream Deck from the tray before installing; its native koffi file is locked while running.'
+}
+
+# Renamed, not deleted: its logs/ folder is the only record of what the old plugin did, and the
+# suffix stops Stream Deck loading it (it loads folders ending in .sdPlugin).
+$legacy = Join-Path $Plugins $LegacyPluginDir
+if (Test-Path $legacy) {
+  $retired = "$legacy.retired-$(Get-Date -Format 'yyyyMMddTHHmmss')"
+  Move-Item $legacy $retired
+  Write-Host "Moved the pre-0.5 plugin aside to $retired; profile keys that used it need replacing"
 }
 
 $target = Join-Path $Plugins $PluginDir

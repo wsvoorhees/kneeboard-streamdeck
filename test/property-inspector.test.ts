@@ -6,7 +6,7 @@ import vm from "node:vm";
 import { fileURLToPath } from "node:url";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
-const html = fs.readFileSync(path.join(here, "../com.willvoorhees.openkneeboard-configurator.sdPlugin/ui/configure.html"), "utf8");
+const html = fs.readFileSync(path.join(here, "../com.willvoorhees.kneeboard-streamdeck.sdPlugin/ui/configure.html"), "utf8");
 const script = html.match(/<script>([\s\S]*?)<\/script>/)?.[1];
 if (!script) throw new Error("property inspector script missing");
 

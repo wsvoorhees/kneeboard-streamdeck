@@ -1,13 +1,13 @@
 {
-  "Name": "OpenKneeboard Configurator",
-  "Version": "0.4.0.0",
+  "Name": "Kneeboard-Streamdeck",
+  "Version": "0.5.0.0",
   "Author": "Will Voorhees",
   "Description": "Control OpenKneeboard tabs, profiles, VR placement, visibility, and opacity from Stream Deck.",
-  "Category": "OpenKneeboard Configurator",
+  "Category": "Kneeboard-Streamdeck",
   "CategoryIcon": "imgs/category",
   "Icon": "imgs/plugin",
-  "URL": "https://github.com/wsvoorhees/openkneeboard-configurator",
-  "UUID": "com.willvoorhees.openkneeboard-configurator",
+  "URL": "https://github.com/wsvoorhees/kneeboard-streamdeck",
+  "UUID": "com.willvoorhees.kneeboard-streamdeck",
   "CodePath": "bin/plugin.js",
   "SDKVersion": 3,
   "Nodejs": {
@@ -26,7 +26,7 @@
   "Actions": [
     {
       "Name": "Switch Profile",
-      "UUID": "com.willvoorhees.openkneeboard-configurator.profile-select",
+      "UUID": "com.willvoorhees.kneeboard-streamdeck.profile-select",
       "Icon": "imgs/actions/overlay-control/icon",
       "Tooltip": "Switch to a named OpenKneeboard profile.",
       "Controllers": [
@@ -48,7 +48,7 @@
     },
     {
       "Name": "Show Tab",
-      "UUID": "com.willvoorhees.openkneeboard-configurator.tab-select",
+      "UUID": "com.willvoorhees.kneeboard-streamdeck.tab-select",
       "Icon": "imgs/actions/view-select/icon",
       "Tooltip": "Show a named OpenKneeboard tab on one view.",
       "Controllers": [
@@ -70,7 +70,7 @@
     },
     {
       "Name": "Adjust Placement",
-      "UUID": "com.willvoorhees.openkneeboard-configurator.placement-dial",
+      "UUID": "com.willvoorhees.kneeboard-streamdeck.placement-dial",
       "Icon": "imgs/actions/placement-dial/icon",
       "Tooltip": "Turn a dial or press a key to nudge an axis or resize; set ticks per page.",
       "Controllers": [
@@ -92,7 +92,7 @@
     },
     {
       "Name": "Reset Position",
-      "UUID": "com.willvoorhees.openkneeboard-configurator.placement-reset",
+      "UUID": "com.willvoorhees.kneeboard-streamdeck.placement-reset",
       "Icon": "imgs/actions/placement-reset/icon",
       "Tooltip": "Undo every nudge sent since placement was entered.",
       "Controllers": [
@@ -114,7 +114,7 @@
     },
     {
       "Name": "Recentre VR",
-      "UUID": "com.willvoorhees.openkneeboard-configurator.recentre",
+      "UUID": "com.willvoorhees.kneeboard-streamdeck.recentre",
       "Icon": "imgs/actions/recentre/icon",
       "Tooltip": "Recentre the kneeboard on your current view.",
       "Controllers": [
@@ -136,7 +136,7 @@
     },
     {
       "Name": "Select View",
-      "UUID": "com.willvoorhees.openkneeboard-configurator.view-select",
+      "UUID": "com.willvoorhees.kneeboard-streamdeck.view-select",
       "Icon": "imgs/actions/view-select/icon",
       "Tooltip": "Point the placement dials at this view.",
       "Controllers": [
@@ -158,7 +158,7 @@
     },
     {
       "Name": "Show View",
-      "UUID": "com.willvoorhees.openkneeboard-configurator.view-visibility",
+      "UUID": "com.willvoorhees.kneeboard-streamdeck.view-visibility",
       "Icon": "imgs/actions/view-visibility/icon",
       "Tooltip": "Show or hide a view, putting its tab on it first.",
       "Controllers": [
@@ -180,7 +180,7 @@
     },
     {
       "Name": "Fade View",
-      "UUID": "com.willvoorhees.openkneeboard-configurator.view-opacity",
+      "UUID": "com.willvoorhees.kneeboard-streamdeck.view-opacity",
       "Icon": "imgs/actions/view-opacity/icon",
       "Tooltip": "Fade the selected view up or down.",
       "Controllers": [

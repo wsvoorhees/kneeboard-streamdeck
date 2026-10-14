@@ -2,7 +2,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { Resvg } from '@resvg/resvg-js';
 
-const root = 'com.willvoorhees.openkneeboard-configurator.sdPlugin/imgs';
+const root = 'com.willvoorhees.kneeboard-streamdeck.sdPlugin/imgs';
 const motifs = {
   'overlay-control': '<rect x="4" y="5" width="16" height="14" rx="2"/><path d="M7 9h10M7 12h6"/>',
   'placement-dial': '<circle cx="12" cy="12" r="8"/><path d="M12 12l4-4M12 3v2M3 12h2M19 12h2M12 19v2"/>',

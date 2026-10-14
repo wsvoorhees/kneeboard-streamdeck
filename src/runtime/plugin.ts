@@ -14,7 +14,7 @@ import { closeSession } from "./session.ts";
 
 streamDeck.logger.setLevel("info");
 streamDeck.logger.info(
-  `openkneeboard-configurator starting: node ${process.version}, pid ${process.pid}`,
+  `kneeboard-streamdeck starting: node ${process.version}, pid ${process.pid}`,
 );
 
 streamDeck.actions.registerAction(new ProfileSelect());

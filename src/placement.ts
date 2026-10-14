@@ -1,8 +1,8 @@
 /**
  * Placement nudges and the bookkeeping `Reset position` needs.
  *
- * Pure by design: the standalone test suite runs this on Linux, while the mailslot it ultimately feeds is a
- * Windows object that only exists while OpenKneeboard is running.
+ * Pure by design: the standalone test suite runs this on Linux, while the C API DLL it ultimately feeds
+ * only loads on Windows.
  */
 
 import { AXES, NUDGE_AXES, isRotation, type Axis, type Nudge, type NudgeAxis } from "./protocol.ts";

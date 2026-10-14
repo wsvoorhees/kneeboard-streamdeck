@@ -5,7 +5,7 @@ import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { PLUGIN_NAME, PLUGIN_UUID, PLUGIN_VERSION } from '../src/identity.ts';
 
-const bundle = path.resolve('com.willvoorhees.openkneeboard-configurator.sdPlugin');
+const bundle = path.resolve('com.willvoorhees.kneeboard-streamdeck.sdPlugin');
 const manifest = JSON.parse(fs.readFileSync(path.join(bundle, 'manifest.json'), 'utf8'));
 
 function imagePath(reference: string, suffix = ''): string {
@@ -32,10 +32,10 @@ test('manifest artwork is complete, local, and has high-resolution variants', ()
   }
 });
 
-test('plugin and action IDs use the configurator namespace', () => {
-  assert.equal(manifest.Name, 'OpenKneeboard Configurator');
+test('plugin and action IDs use the kneeboard-streamdeck namespace', () => {
+  assert.equal(manifest.Name, 'Kneeboard-Streamdeck');
   assert.equal(manifest.Category, manifest.Name);
-  assert.equal(manifest.UUID, 'com.willvoorhees.openkneeboard-configurator');
+  assert.equal(manifest.UUID, 'com.willvoorhees.kneeboard-streamdeck');
   assert.equal(new Set(manifest.Actions.map((action: { UUID: string }) => action.UUID)).size, manifest.Actions.length);
   for (const action of manifest.Actions) assert.ok(action.UUID.startsWith(`${manifest.UUID}.`));
 });

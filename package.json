@@ -1,7 +1,7 @@
 {
-  "name": "openkneeboard-configurator",
+  "name": "kneeboard-streamdeck",
   "private": true,
-  "version": "0.4.0",
+  "version": "0.5.0",
   "type": "module",
   "description": "Self-contained Stream Deck plugin for controlling OpenKneeboard views, tabs, placement, and opacity.",
   "scripts": {
@@ -9,8 +9,8 @@
     "test": "node --experimental-strip-types --test test/*.test.ts",
     "typecheck": "tsc --noEmit",
     "generate:icons": "node scripts/generate-icons.mjs",
-    "validate": "streamdeck validate com.willvoorhees.openkneeboard-configurator.sdPlugin --no-update-check",
-    "pack": "npm run build && npm run bundle:runtime && streamdeck pack com.willvoorhees.openkneeboard-configurator.sdPlugin --output dist --force --no-update-check",
+    "validate": "streamdeck validate com.willvoorhees.kneeboard-streamdeck.sdPlugin --no-update-check",
+    "pack": "npm run build && npm run bundle:runtime && streamdeck pack com.willvoorhees.kneeboard-streamdeck.sdPlugin --output dist --force --no-update-check",
     "bundle:runtime": "node scripts/bundle-runtime.mjs"
   },
   "dependencies": {

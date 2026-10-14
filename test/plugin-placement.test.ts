@@ -38,8 +38,8 @@ test("size nudges preserve captured proportions and reset across page step sizes
   assert.equal(coarse.nudge.MaxWidth! / base.Width, coarse.nudge.MaxHeight! / base.Height);
   const fine = resize(coarse.state, -1, base);
   assert.ok(Math.abs(fine.nudge.MaxWidth! / base.Width + 0.01) < 1e-12);
-  const packet = JSON.parse(nudgeVrView(fine.nudge, fine.state.target).split("!")[3]!);
-  assert.deepEqual(packet, { Kneeboard: fine.state.target, ...fine.nudge });
+  const payload = JSON.parse(nudgeVrView(fine.nudge, fine.state.target).value);
+  assert.deepEqual(payload, { Kneeboard: fine.state.target, ...fine.nudge });
   const reset = resetDelta(fine.state);
   assert.ok(Math.abs(reset.nudge.MaxWidth! + coarse.nudge.MaxWidth! + fine.nudge.MaxWidth!) < 1e-12);
   assert.ok(Math.abs(reset.nudge.MaxHeight! + coarse.nudge.MaxHeight! + fine.nudge.MaxHeight!) < 1e-12);
@@ -57,7 +57,7 @@ test("size nudges stop at OpenKneeboard's minimum without losing reset", () => {
   assert.deepEqual(resize(createPlacement(), 1, { Width: -1, Height: 0.25 }).nudge, {});
 });
 
-test("a dial index the hardware cannot produce yields no packet rather than driving X", () => {
+test("a dial index the hardware cannot produce yields no message rather than driving X", () => {
   assert.equal(axisForDial(6), undefined);
   const { nudge, state } = rotate(createPlacement(), 6, 3);
   assert.equal(isEmptyNudge(nudge), true);
@@ -100,7 +100,7 @@ test("reset sends the exact inverse of everything this session moved, then forge
   assert.equal(isEmptyNudge(resetDelta(after).nudge), true);
 });
 
-test("reset with nothing moved is empty rather than a packet full of zeroes", () => {
+test("reset with nothing moved is empty rather than a message full of zeroes", () => {
   assert.equal(isEmptyNudge(resetDelta(createPlacement()).nudge), true);
 });
 

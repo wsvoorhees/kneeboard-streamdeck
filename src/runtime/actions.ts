@@ -198,7 +198,7 @@ export type ShowViewSettings = ViewKeySettings & {
 /**
  * Show or hide one view, with its tab: Wheel Ref and Orca on a game page, `Show N` on placement.
  *
- * Always a toggle, never a remembered state: the mailslot is one-way, so the plugin cannot read
+ * Always a toggle, never a remembered state: the channel to OpenKneeboard is one-way, so the plugin cannot read
  * back whether a view is up. Letting OpenKneeboard do the toggling keeps the truth in the one
  * place that has it.
  *

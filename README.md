@@ -1,8 +1,10 @@
-# OpenKneeboard Configurator
+# Kneeboard-Streamdeck
 
 A Windows Stream Deck plugin for controlling OpenKneeboard from keys and dials. It can switch tabs and profiles, recenter VR, nudge a view's placement and size, toggle one view, and fade one view. Each action has an offline property inspector for its settings. The plugin includes its own icons and build files.
 
-Its visible name and category are **OpenKneeboard Configurator**, and its plugin ID is `com.willvoorhees.openkneeboard-configurator`. Profiles using the earlier plugin identifier need their actions re-added after installation; Stream Deck identifies actions by their plugin and action IDs.
+This is an independent project, not part of OpenKneeboard and not supported by its developers. Report problems with it here, not to OpenKneeboard.
+
+Its visible name and category are **Kneeboard-Streamdeck**, and its plugin ID is `com.willvoorhees.kneeboard-streamdeck`. Before 0.5.0 it was called OpenKneeboard Configurator, with the ID `com.willvoorhees.openkneeboard-configurator`. Stream Deck identifies actions by their plugin and action IDs, so keys made with the old plugin need re-adding after installation; `install.ps1` moves the old plugin aside so Stream Deck does not load both.
 
 ## Artwork
 
@@ -19,11 +21,13 @@ The package also includes 14 images verified against the installed profiles in `
 | Toggle one view | A build containing [PR #939](https://github.com/OpenKneeboard/OpenKneeboard/pull/939) as reworked after review (`ToggleVRViewVisibility`); builds of earlier versions, which used `ToggleViewVisibility` or `SetViewVisibility`, ignore it. Include [PR #942](https://github.com/OpenKneeboard/OpenKneeboard/pull/942) too: without it, hiding the last visible view with SteamVR running can crash OpenKneeboard. |
 | Fade one view | A build containing [PR #940](https://github.com/OpenKneeboard/OpenKneeboard/pull/940) as reworked after review (`SetVRViewOpacity`); builds of earlier versions, which used `SetViewOpacity`, ignore it. |
 
-The API uses a one-way Windows mailslot. A successful write confirms delivery to OpenKneeboard, not that the requested change was applied. Unsupported messages are ignored by older builds.
+The plugin sends through OpenKneeboard's supported [C API](https://openkneeboard.com/api/c/): `OpenKneeboard_send_utf8` in the `OpenKneeboard_CAPI64.dll` that ships with each OpenKneeboard release. It finds the DLL in the same order as OpenKneeboard's own `capi-test.py`: the `OPENKNEEBOARD_CAPI_DLL` environment variable, then the `InstallationBinPath` OpenKneeboard records in `HKCU\Software\Fred Emmott\OpenKneeboard` each time it starts, then `%ProgramFiles%\OpenKneeboard\bin`. Launch OpenKneeboard once after installing it so the DLL can be found.
+
+The API is one-way and returns nothing, so a send cannot tell whether OpenKneeboard is running or applied the change. Builds that do not know a message ignore it. The plugin keeps the DLL loaded while it runs, so quit Stream Deck before upgrading OpenKneeboard, or its installer reports the DLL as in use.
 
 ## Configure actions
 
-Add an action from the **OpenKneeboard Configurator** category in Stream Deck, select it, enter its settings in the property inspector, and press **Save**. Tab and profile names must exactly match names in OpenKneeboard. View numbers start at 1; 0 means the active view where supported. Actions can be placed on keys or dials where their controller supports them. Dial rotation adjusts placement or opacity.
+Add an action from the **Kneeboard-Streamdeck** category in Stream Deck, select it, enter its settings in the property inspector, and press **Save**. Tab and profile names must exactly match names in OpenKneeboard. View numbers start at 1; 0 means the active view where supported. Actions can be placed on keys or dials where their controller supports them. Dial rotation adjusts placement or opacity.
 
 | Action | Key press | Dial |
 | --- | --- | --- |
@@ -76,18 +80,18 @@ npm run pack
 
 ## Diagnostics
 
-With OpenKneeboard running, the built `bin/smoke.js` sends a tab-switch packet:
+With OpenKneeboard running, the built `bin/smoke.js` sends a tab switch to view 1:
 
 ```powershell
 $plugin = Get-ChildItem -Directory -Filter '*.sdPlugin' | Select-Object -First 1
 node (Join-Path $plugin.FullName 'bin/smoke.js') AMS2
 ```
 
-Replace `AMS2` with an existing tab title. If OpenKneeboard is closed, the smoke test should fail. Logs from the installed plugin live in its `logs/` folder under `%APPDATA%\Elgato\StreamDeck\Plugins\`.
+Replace `AMS2` with a tab title in the active OpenKneeboard profile. Its first line names the DLL it loaded and how it was found. A success means the DLL accepted the call, not that OpenKneeboard acted on it: check that view 1 switched tab. Logs from the installed plugin live in its `logs/` folder under `%APPDATA%\Elgato\StreamDeck\Plugins\`.
 
 ## Source layout
 
-- `src/protocol.ts`, `placement.ts`, `dispatch.ts`, `pages.ts`: pure logic tested on Linux and Windows.
-- `src/runtime/`: Stream Deck actions, the mailslot sender, and process state.
+- `src/protocol.ts`, `capi-path.ts`, `placement.ts`, `dispatch.ts`, `pages.ts`: pure logic tested on Linux and Windows.
+- `src/runtime/`: Stream Deck actions, the C API sender, and process state.
 - `*.sdPlugin/manifest.json`, `ui/`, `imgs/`: the installable plugin's metadata, offline settings UI, and original bundled artwork.
 - `scripts/generate-icons.mjs`: reproducible source for every manifest image; no third-party art is required.

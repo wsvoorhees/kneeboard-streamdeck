@@ -3,7 +3,7 @@ import json from "@rollup/plugin-json";
 import nodeResolve from "@rollup/plugin-node-resolve";
 import typescript from "@rollup/plugin-typescript";
 
-const outDir = "com.willvoorhees.openkneeboard-configurator.sdPlugin/bin";
+const outDir = "com.willvoorhees.kneeboard-streamdeck.sdPlugin/bin";
 
 const shared = {
   // koffi is a NATIVE module: bundling it would inline a .node loader that resolves nothing at
